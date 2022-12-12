@@ -1,0 +1,65 @@
+<nav>
+  <header>
+    <div>BlinkStick IDE</div>
+  </header>
+  <div class="project-list">
+    <div *ngFor="let p of projects" [routerLink]="['/projects', p.id]" class="project-item" [ngClass]="{'project-item-active': project?.id === p.id}">
+      <i class="pi" [ngClass]="{'pi-align-left': p.type === 'TypeScript', 'pi-ticket': p.type ==='Blockly'}"></i> {{p.name}}
+    </div>
+    <p-overlayPanel #op>
+      <ng-template pTemplate>
+        <div class="grid p-fluid">
+          <div class="col-12 md:col-4">
+            ID: <input #projectName pInputText type="text" required>
+            </div>
+            <div class="col-12 md:col-4">
+              Typ: <p-dropdown #projectType [options]="['Blockly', 'TypeScript']" [required]="true"></p-dropdown>
+            </div>
+            <div class="col-12 md:col-4">
+              <button pButton (click)="createProject(projectName.value, projectType.selectedOption)" label="Projekt erstellen" icon="pi pi-plus"></button>
+            </div>
+       </div>
+      </ng-template>
+    </p-overlayPanel>
+    <div class="project-item" (click)="op.toggle($event)">
+      <i class="pi pi-plus"></i> Projekt erstellen
+    </div>
+  </div>
+</nav>
+<main>
+  <p-confirmDialog header="Bestätigung" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+  <ng-container *ngIf="project">
+    <header>
+      <p-overlayPanel #opRename>
+        <ng-template pTemplate>
+          <div class="grid p-fluid">
+            <div class="col-12 md:col-4">
+              Name: <input #editProjectName pInputText type="text" [value]="project.name" required>
+            </div>
+            <div class="col-12 md:col-4">
+              <button pButton (click)="renameProject(project.id, editProjectName.value); opRename.toggle($event);" label="Projekt umbenennen" icon="pi pi-pencil"></button>
+            </div>
+         </div>
+        </ng-template>
+      </p-overlayPanel>
+      <div>[{{project.id}}] {{project.name}} <i class="pi pi-pencil" (click)="opRename.toggle($event)"></i></div>
+      <div class="toolbar">
+        <button pButton type="button" class="p-button-sm" label="Ausführen" icon="pi pi-play" (click)="runProject(project)" [loading]="runInProgress"></button>
+        <button pButton type="button" class="p-button-sm p-button-danger" label="Löschen" icon="pi pi-trash" (click)="deleteProject(project)"></button>
+      </div>
+    </header>
+
+    <div class="editor-panel block-editor" *ngIf="project.type === 'Blockly'">
+      <div class="editor-panel-body" style="height: 100%" >
+        <blinkstick-editor-block-editor #blockEditor style="height: 100%" (changed)="onBlockEditorChanged()"></blinkstick-editor-block-editor>
+      </div>
+    </div>
+    <div class="editor-panel code-editor" [ngClass]="project.type === 'TypeScript' ? 'code-editor-full' : ''">
+      <div class="editor-panel-body">
+        <blinkstick-editor-code-editor #codeEditor [readOnly]="project.type === 'Blockly'" (changed)="onCodeEditorChanged()"></blinkstick-editor-code-editor>
+      </div>
+    </div>
+
+  </ng-container>
+</main>
+

@@ -1,0 +1,7 @@
+
+.angular
+.DS_Store
+node_modules
+projects
+*.log
+dist
