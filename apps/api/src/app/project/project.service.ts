@@ -73,7 +73,7 @@ export class ProjectService {
     this.logger.log(`Running project ${id}`);
     const files = await this.getProjectFiles(id);
     const main = files.files.find((f) => f.name == 'main.ts');
-    const code = "import {Farbe, FarbeHex, setzeFarbe} from 'blinkstick-ts/src/de';\n\n" + main.data;
+    const code = "import {Farbe, FarbeHex, setzeFarbe} from 'blinkstick-ts/dist/de';\n\n" + main.data;
     this.logger.log(code);
     eval(transpile(code, {sourceRoot: '.', rootDir: `${this.PROJECTS_DIR}/${id}`, noLib: true}, main.name));
   }
