@@ -41,4 +41,8 @@ export class ProjectService {
     return this.http.post<void>(`http://localhost:2001/api/projects/${id}/run`, {});
   }
 
+  public stopProject(id: string): Observable<void> {
+    return this.http.post<void>(`http://localhost:2001/api/projects/${id}/stop`, {});
+  }
+
 }

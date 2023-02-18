@@ -15,6 +15,8 @@ export class ProjectService {
 
   private readonly logger = new Logger(ProjectService.name);
   private readonly PROJECTS_DIR = "projects";
+  private running = false;
+  private runningContext?: { shouldRun: boolean; };
 
   public async getProjects(): Promise<ProjectsDTO> {
     try {
@@ -70,14 +72,33 @@ export class ProjectService {
   public async runProject(id: string): Promise<void> {
     // const program = createProgram({rootNames: [`${this.PROJECTS_DIR}/id/main.ts`], options: {}});
     // program.emit();
-    this.logger.log(`Running project ${id}`);
-    const files = await this.getProjectFiles(id);
-    const main = files.files.find((f) => f.name == 'main.ts');
-    const code = "import {Farbe, FarbeHex, setzeFarbe} from 'blinkstick-ts/dist/de';\n\n" + main.data;
-    this.logger.log(code);
-    eval(transpile(code, {sourceRoot: '.', rootDir: `${this.PROJECTS_DIR}/${id}`, noLib: true}, main.name));
+    if (this.running) {
+      return;
+    }
+
+    try {
+      const context = { shouldRun: true };
+      this.running = true;
+      this.runningContext = context;
+      this.logger.log(`Running project ${id}`);
+      const files = await this.getProjectFiles(id);
+      const main = files.files.find((f) => f.name == 'main.ts');
+      const code = "import {Farbe, FarbeHex, setzeFarbe, warte} from 'blinkstick-ts/dist/de';\n\n" + main.data;
+      this.logger.log(code);
+      this.logger.log('Starting execution');
+      eval(transpile(code, {sourceRoot: '.', rootDir: `${this.PROJECTS_DIR}/${id}`, noLib: true}, main.name));
+      this.logger.log('Finished execution');
+    } finally {
+      this.running = false;
+      this.runningContext = undefined;
+    }
   }
 
+  public async stopRunning(): Promise<void> {
+    if (this.running && this.runningContext) {
+      this.runningContext.shouldRun = false;
+    }
+  }
 
   private async readProject(id: string): Promise<ProjectDTO> {
     try {

@@ -16,29 +16,27 @@ export class BlockEditorComponent implements OnInit {
     kind: "categoryToolbox",
     contents: [
       { kind: 'category', name: 'Stufe 1', contents: [
-        { kind: "block", type: "setzeFarbe" },
+        { kind: "block", type: "blinkstick_setColor" },
         { kind: "block", type: "math_number" },
         { kind: "block", type: "colour_picker"},
       ]},
       { kind: 'category', name: 'Stufe 2', contents: [
-        { kind: "block", type: "setzeFarbe" },
+        { kind: "block", type: "blinkstick_setColor" },
         { kind: "block", type: "math_number" },
         { kind: "block", type: "colour_picker"},
         { kind: "block", type: "controls_if"},
       ]},
       { kind: 'category', name: 'Alles', contents: [
         { kind: 'category', name: 'BlinkStick', contents: [
-          { kind: "block", type: "setzeFarbe" },
+          { kind: "block", type: "blinkstick_setColor" },
         ]},
         { kind: 'category', name: 'Farben', contents: [
-
           { kind: "block", type: "colour_blend" },
           { kind: "block", type: "colour_picker" },
           { kind: "block", type: "colour_random" },
           { kind: "block", type: "colour_rgb" },
         ]},
         { kind: 'category', name: 'Kontrollfluss', contents: [
-
           { kind: "block", type: "controls_flow_statements" },
           { kind: "block", type: "controls_for" },
           { kind: "block", type: "controls_forEach" },
@@ -50,6 +48,8 @@ export class BlockEditorComponent implements OnInit {
           { kind: "block", type: "controls_repeat" },
           { kind: "block", type: "controls_repeat_ext" },
           { kind: "block", type: "controls_whileUntil" },
+          { kind: "block", type: "controls_wait" },
+          { kind: "block", type: "controls_stopIfRequested" },
         ]},
         { kind: 'category', name: 'Listen', contents: [
 
@@ -141,7 +141,7 @@ export class BlockEditorComponent implements OnInit {
   ngOnInit(): void {
     Blockly.setLocale(DE);
     Blockly.defineBlocksWithJsonArray([{
-      type: "setzeFarbe",
+      type: "blinkstick_setColor",
       message0: "Setze LED %1 auf Farbe %2",
       args0: [
         {type: "input_value", name: "POSITION", check: "Number"},
@@ -152,12 +152,41 @@ export class BlockEditorComponent implements OnInit {
       previousStatement: null,
       nextStatement: null,
       tooltip: "Setzt die Farbe auf der genannten Position.",
+    }, {
+      type: "controls_wait",
+      message0: "Warte für %1 Sekunden",
+      args0: [
+        {type: "input_value", name: "SECONDS", check: "Number"},
+      ],
+      colour: 120,
+      inputsInline: true,
+      previousStatement: null,
+      nextStatement: null,
+      tooltip: "Warte die angegebenen Sekunden.",
+    }, {
+      type: "controls_stopIfRequested",
+      message0: "Stop, wenn gewünscht",
+      colour: 120,
+      previousStatement: null,
+      nextStatement: null,
+      tooltip: "Stop, wenn gewünscht.",
     }]);
 
-    javascriptGenerator['setzeFarbe'] = (block: Blockly.Block) => {
+    javascriptGenerator['blinkstick_setColor'] = (block: Blockly.Block) => {
       const position = javascriptGenerator.valueToCode(block, 'POSITION', javascriptGenerator.ORDER_NONE) || 0;
       const color = javascriptGenerator.valueToCode(block, 'COLOR', javascriptGenerator.ORDER_MEMBER) || '\'#000000\'';
       const code = `setzeFarbe(${position}, FarbeHex(${color}));\n`;
+      return code;
+    };
+
+    javascriptGenerator['controls_wait'] = (block: Blockly.Block) => {
+      const seconds = javascriptGenerator.valueToCode(block, 'SECONDS', javascriptGenerator.ORDER_NONE) || 0;
+      const code = `await warte(${seconds});\n`;
+      return code;
+    };
+
+    javascriptGenerator['controls_stopIfRequested'] = (block: Blockly.Block) => {
+      const code = `if (!context.shouldRun) { return; };\n`;
       return code;
     };
 

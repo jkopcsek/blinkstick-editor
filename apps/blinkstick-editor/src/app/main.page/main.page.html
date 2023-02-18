@@ -44,7 +44,8 @@
       </p-overlayPanel>
       <div>[{{project.id}}] {{project.name}} <i class="pi pi-pencil" (click)="opRename.toggle($event)"></i></div>
       <div class="toolbar">
-        <button pButton type="button" class="p-button-sm" label="Ausführen" icon="pi pi-play" (click)="runProject(project)" [loading]="runInProgress"></button>
+        <button pButton type="button" class="p-button-sm" label="Ausführen" icon="pi pi-play" (click)="runProject(project)" *ngIf="!runInProgress"></button>
+        <button pButton type="button" class="p-button-sm" label="Stop" icon="pi pi-stop" (click)="stopProject(project)" *ngIf="runInProgress"></button>
         <button pButton type="button" class="p-button-sm p-button-danger" label="Löschen" icon="pi pi-trash" (click)="deleteProject(project)"></button>
       </div>
     </header>

@@ -129,9 +129,19 @@ export class MainPage implements OnInit {
 
   public async runProject(project: ProjectDTO) {
     this.runInProgress = true;
-    await lastValueFrom(this.projectService.runProject(project.id));
-    this.runInProgress = false;
+    try {
+      await lastValueFrom(this.projectService.runProject(project.id));
+    } catch (error) {
+      window.alert("An error occured while running the project\n"+JSON.stringify(error));
+    } finally {
+      this.runInProgress = false;
+    }
   }
+
+  public async stopProject(project: ProjectDTO) {
+    await lastValueFrom(this.projectService.stopProject(project.id));
+  }
+
 
   public async deleteProject(project: ProjectDTO) {
     this.confirmationService.confirm({

@@ -44,4 +44,9 @@ export class ProjectController {
   public runProject(@Param("id") id: string) {
     return this.projectService.runProject(id);
   }
+
+  @Post(':id/stop')
+  public stopProject(@Param("id") id: string) {
+    return this.projectService.stopRunning();
+  }
 }
