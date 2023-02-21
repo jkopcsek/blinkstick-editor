@@ -83,10 +83,11 @@ export class ProjectService {
       this.logger.log(`Running project ${id}`);
       const files = await this.getProjectFiles(id);
       const main = files.files.find((f) => f.name == 'main.ts');
-      const code = "import {Farbe, FarbeHex, setzeFarbe, warte} from 'blinkstick-ts/dist/de';\n\n" + main.data;
+      const code = "import {Farbe, FarbeHex, setzeFarbe, warte} from 'blinkstick-ts/dist/de';\n\n"
+         + "(async () => {\n" + main.data + "\n})();";
       this.logger.log(code);
       this.logger.log('Starting execution');
-      eval(transpile(code, {sourceRoot: '.', rootDir: `${this.PROJECTS_DIR}/${id}`, noLib: true}, main.name));
+      await eval(transpile(code, {sourceRoot: '.', rootDir: `${this.PROJECTS_DIR}/${id}`, noLib: true}, main.name));
       this.logger.log('Finished execution');
     } finally {
       this.running = false;

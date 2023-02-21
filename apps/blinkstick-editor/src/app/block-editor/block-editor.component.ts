@@ -154,15 +154,15 @@ export class BlockEditorComponent implements OnInit {
       tooltip: "Setzt die Farbe auf der genannten Position.",
     }, {
       type: "controls_wait",
-      message0: "Warte für %1 Sekunden",
+      message0: "Warte für %1 ms",
       args0: [
-        {type: "input_value", name: "SECONDS", check: "Number"},
+        {type: "input_value", name: "MS", check: "Number"},
       ],
       colour: 120,
       inputsInline: true,
       previousStatement: null,
       nextStatement: null,
-      tooltip: "Warte die angegebenen Sekunden.",
+      tooltip: "Warte die angegebenen Millisekunden.",
     }, {
       type: "controls_stopIfRequested",
       message0: "Stop, wenn gewünscht",
@@ -180,8 +180,8 @@ export class BlockEditorComponent implements OnInit {
     };
 
     javascriptGenerator['controls_wait'] = (block: Blockly.Block) => {
-      const seconds = javascriptGenerator.valueToCode(block, 'SECONDS', javascriptGenerator.ORDER_NONE) || 0;
-      const code = `await warte(${seconds});\n`;
+      const ms = javascriptGenerator.valueToCode(block, 'MS', javascriptGenerator.ORDER_NONE) || 0;
+      const code = `await warte(${ms});\n`;
       return code;
     };
 
