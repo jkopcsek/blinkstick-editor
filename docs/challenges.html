@@ -1,0 +1,129 @@
+<html>
+<head></head>
+<body>
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 1</h3>
+            <h1>Es werde Licht</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse die erste LED rot leuchten.</li>
+                <li>Achtung: Wir fangen bei 0 an zu zählen!</li>
+            </ul>
+        </div>
+        <div class="challenge-card-elements">
+            NEU:
+            <dl>
+                <dt>Farbe, Farben</dt>
+                <dd>Beispiel: <code>Farben.Rot</code> -> <code>Farbe</code></dd>
+                <dt>setzeFarbe(position: Zahl, farbe: Farbe)</dt>
+                <dd>
+                    Beispiel: <code>setzeFarbe(0, Farben.Rot);</code>
+		            Setzt die LED 0 auf die Farbe Rot.
+                </dd>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 2</h3>
+            <h1>Aus eins wird zwei</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse die erste LED blau und die zweite LED grün leuchten.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 3</h3>
+            <h1>Warte mal...</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse die erste LED rot leuchten, warte eine Sekunde und lasse sie dann grün leuchten.</li>
+            </ul>
+        </div>
+        <div class="challenge-card-elements">
+            NEU:
+            <dl>
+                <dt>warte(millisekunden: Zahl)</dt>
+                <dd>Beispiel: <code>await warte(1000);</code>
+                    Wartet eine Sekunde.
+                </dd>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 4</h3>
+            <h1>So viel Licht!</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse alle LEDs (32) weiß leuchten.</li>
+            </ul>
+        </div>
+        <div class="challenge-card-elements">
+            NEU:
+            <dl>
+                <dt>setzeFarben(farben: Farbe[])</dt>
+                <dd>Beispiel: <code>setzeFarben([Farben.rot, Farben.blau])</code>
+                    Setzt die LED 0 und 1 auf rot bzw blau.
+                </dd>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 5</h3>
+            <h1>Blink blink</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse einen Punkt 5 mal blinken. Eine Sekunde an, eine aus.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 6</h3>
+            <h1>Kurzes auf und ab</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse einen Punkt von LED 0 bis zu LED 4 laufen und zurück.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="challenge-card">
+        <div class="challenge-card-title">
+            <h3>Challenge 7</h3>
+            <h1>So viel Licht!</h1>
+        </div>
+        <div class="challenge-card-task">
+            <ul>
+                <li>Lasse einen Punkt das Band hoch und wieder runter laufen.</li>
+            </ul>
+        </div>
+        <div class="challenge-card-elements">
+            NEU:
+            <dl>
+                <dt>zähle <code>i</code> von <code>a</code> bis <code>b</code> in Schritten von <code>c</code></dt>
+                <dd>
+                    Beispiel: <code>zähle i von 0 bis 10 in Schritten von 1`</code>
+                    Führt die Anweisungen 11 mal aus, wobei i bei der ersten Ausführung den Wert 0 hat, bei der zweiten den Wert 1 usw.
+                </dd>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

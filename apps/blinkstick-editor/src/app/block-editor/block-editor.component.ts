@@ -15,16 +15,31 @@ export class BlockEditorComponent implements OnInit {
   private readonly toolbox = {
     kind: "categoryToolbox",
     contents: [
-      { kind: 'category', name: 'Stufe 1', contents: [
+      { kind: 'category', name: 'ab Challenge 1', contents: [
         { kind: "block", type: "blinkstick_setColor" },
         { kind: "block", type: "math_number" },
         { kind: "block", type: "colour_picker"},
       ]},
-      { kind: 'category', name: 'Stufe 2', contents: [
+      { kind: 'category', name: 'ab Challenge 3', contents: [
         { kind: "block", type: "blinkstick_setColor" },
         { kind: "block", type: "math_number" },
         { kind: "block", type: "colour_picker"},
-        { kind: "block", type: "controls_if"},
+        { kind: "block", type: "controls_wait"},
+      ]},
+      { kind: 'category', name: 'ab Challenge 4', contents: [
+        { kind: "block", type: "blinkstick_setColor" },
+        { kind: "block", type: "blinkstick_setColors" },
+        { kind: "block", type: "math_number" },
+        { kind: "block", type: "colour_picker"},
+        { kind: "block", type: "controls_wait"},
+      ]},
+      { kind: 'category', name: 'ab Challenge 7', contents: [
+        { kind: "block", type: "blinkstick_setColor" },
+        { kind: "block", type: "blinkstick_setColors" },
+        { kind: "block", type: "math_number" },
+        { kind: "block", type: "colour_picker"},
+        { kind: "block", type: "controls_wait"},
+        { kind: "block", type: "controls_for" },
       ]},
       { kind: 'category', name: 'Alles', contents: [
         { kind: 'category', name: 'BlinkStick', contents: [
@@ -55,8 +70,8 @@ export class BlockEditorComponent implements OnInit {
 
           { kind: "block", type: "lists_create_empty" },
           { kind: "block", type: "lists_create_with" },
-          { kind: "block", type: "lists_create_with_container" },
-          { kind: "block", type: "lists_create_with_item" },
+          //{ kind: "block", type: "lists_create_with_container" },
+          //{ kind: "block", type: "lists_create_with_item" },
           { kind: "block", type: "lists_getIndex" },
           { kind: "block", type: "lists_getSublist" },
           { kind: "block", type: "lists_indexOf" },
@@ -153,6 +168,17 @@ export class BlockEditorComponent implements OnInit {
       nextStatement: null,
       tooltip: "Setzt die Farbe auf der genannten Position.",
     }, {
+      type: "blinkstick_setColors",
+      message0: "Setze LEDs auf die Farben %1",
+      args0: [
+        {type: "input_value", name: "COLORS", check: "Array"}
+      ],
+      colour: 160,
+      inputsInline: false,
+      previousStatement: null,
+      nextStatement: null,
+      tooltip: "Setzt die Farbe auf der genannten Position.",
+    }, {
       type: "controls_wait",
       message0: "Warte für %1 ms",
       args0: [
@@ -176,6 +202,12 @@ export class BlockEditorComponent implements OnInit {
       const position = javascriptGenerator.valueToCode(block, 'POSITION', javascriptGenerator.ORDER_NONE) || 0;
       const color = javascriptGenerator.valueToCode(block, 'COLOR', javascriptGenerator.ORDER_MEMBER) || '\'#000000\'';
       const code = `setzeFarbe(${position}, FarbeHex(${color}));\n`;
+      return code;
+    };
+
+    javascriptGenerator['blinkstick_setColors'] = (block: Blockly.Block) => {
+      const color = javascriptGenerator.valueToCode(block, 'COLORS', javascriptGenerator.ORDER_MEMBER) || '[]';
+      const code = `setzeFarben(${color}.map(FarbeHex));\n`;
       return code;
     };
 
